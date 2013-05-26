@@ -27,7 +27,8 @@ Meteor.startup(function() {
     newList: function() {
       console.log('INFO: Creating new list for user: ', this.userId);
       var obj = {
-        userId: this.userId
+        userId: this.userId,
+        title: 'New List'
       };
 
       // Insert new list into db and return objectId
@@ -36,7 +37,7 @@ Meteor.startup(function() {
       return results;
     },
 
-    newItem: function(listId) {
+    newItem: function(listId, desc) {
       console.log('INFO: Creating new item for list: ', listId);
 
       // Verify user owns list
@@ -45,7 +46,7 @@ Meteor.startup(function() {
       var obj = {
         userId: this.userId,
         listId: listId,
-        desc: 'TEST ITEM',
+        desc: desc,
         isComplete: false
       };
 

@@ -1,35 +1,39 @@
 <template name="todo_page">
-  <h1>TODO</h1>
-  {{#if list_selected}}
-    {{> todo_items_view}}
-  {{else}}
-    {{> todo_lists_view}}
-  {{/if}}
+  <div class="todo-app">
+    <h1>TODO</h1>
+    {{#if list_selected}}
+      {{> todo_items_view}}
+    {{else}}
+      {{> todo_lists_view}}
+    {{/if}}
+  </div>
 </template>
 
 <template name="todo_lists_view">
-  <h4>TODO List View</h4>
-  <button class="btn btn-success" id="new-list">New List</button>
-  <ul>
+  <button class="btn btn-success" id="new-list"><span class="fui-plus">New List</span></button>
+  <div class="todo-lists">
     {{#each todoLists}}
-      <li>List</li>
+      <div class="todo-list">{{title}}</div>
     {{/each}}
-  </ul>
+  </div>
 </template>
 
 <template name="todo_items_view">
-  <h4>TODO Items View</h4>
-  <div>ID: {{id}}</div>
-  <ul>
+  <h2>{{title}}<span class="fui-new text-right"></span></h2>
+  <div class="todo-items">
     {{#each todoItems}}
-      {{> todoItem_view}}
+      {{> todo_item_view}}
     {{/each}}
-  </ul>
+    <div><input type="text" placeholder="Enter New Item" name="desc"></input></div>
+  </div>
   <button class="btn btn-danger" id="back">Back</button>
   <button class="btn btn-success" id="add-item">Add Item</button>
 </template>
 
 <template name="todo_item_view">
-  <span class="fui-plus">
-  <span class="desc">{{desc}}</span>
+  <div class="todo-item">
+    <span class="desc">{{desc}}</span>
+    <span class="fui-new"></span>
+    <span class="fui-cross"></span>
+  </div>
 </template>
