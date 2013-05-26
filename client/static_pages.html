@@ -1,0 +1,34 @@
+<head>
+  <title>ToDo List</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    {{> header_view}}
+    <div class="row-fluid">
+      <div class="span6 offset3" id="main">
+        {{renderPage}}
+      </div>
+    </div>
+  </div>
+</body>
+
+<template name="login_page">
+  <div class="text-center">
+    {{loginButtons}}
+  </div>
+</template>
+
+<template name="loading_page">
+  <div class="text-center">
+    Loading...
+  </div>
+</template>
+
+<template name="header_view">
+  {{#if logged_in}}
+    <div class="header">
+      {{loginButtons}}
+    </div>
+  {{/if}}
+</template>
