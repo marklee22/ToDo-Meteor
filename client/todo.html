@@ -1,0 +1,35 @@
+<template name="todo_page">
+  <h1>TODO</h1>
+  {{#if list_selected}}
+    {{> todo_items_view}}
+  {{else}}
+    {{> todo_lists_view}}
+  {{/if}}
+</template>
+
+<template name="todo_lists_view">
+  <h4>TODO List View</h4>
+  <button class="btn btn-success" id="new-list">New List</button>
+  <ul>
+    {{#each todoLists}}
+      <li>List</li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="todo_items_view">
+  <h4>TODO Items View</h4>
+  <div>ID: {{id}}</div>
+  <ul>
+    {{#each todoItems}}
+      {{> todoItem_view}}
+    {{/each}}
+  </ul>
+  <button class="btn btn-danger" id="back">Back</button>
+  <button class="btn btn-success" id="add-item">Add Item</button>
+</template>
+
+<template name="todo_item_view">
+  <span class="fui-plus">
+  <span class="desc">{{desc}}</span>
+</template>
