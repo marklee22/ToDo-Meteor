@@ -1,5 +1,4 @@
 <template name="todo_page">
-  <button id="tweet" class="btn btn-info">Tweet</button>
   <div class="todo-app">
     {{#if show_items_view}}
       {{> todo_items_view}}
@@ -35,7 +34,12 @@
       {{#each todoItems}}
         {{> todo_item_view}}
       {{/each}}
-      <input type="text" placeholder="Enter New Item" name="newItem" id="todo-add-item"></input>
+      <div class="todo-new-box">
+        <input type="text" placeholder="Enter New Item" name="newItem" id="todo-add-item"></input>
+        <div class="twitter-checkbox">
+          <i class="{{twitter_checkbox_class}}"/><span>Post to Twitter upon Completion?</span>
+        </div>
+      </div>
     </div>
   </div>
   {{> todo_footer_view}}

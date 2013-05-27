@@ -26,3 +26,23 @@ Template.login_page.events({
     Meteor.loginWithTwitter();
   }
 });
+
+Template.alert_view.is_alert = function() {
+  return Session.get('alert');
+};
+
+Template.alert_view.alert_class = function() {
+  if(Session.get('alert'))
+    return Session.get('alert').className;
+};
+
+Template.alert_view.alert_msg = function() {
+  if(Session.get('alert'))
+    return Session.get('alert').msg;
+};
+
+Template.alert_view.events({
+  'click button': function() {
+    Session.set('alert', '');
+  }
+});

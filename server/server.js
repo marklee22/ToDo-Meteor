@@ -45,17 +45,19 @@ Meteor.startup(function() {
       return results;
     },
 
-    newItem: function(listId, desc) {
+    newItem: function(listId, enableTweets, desc) {
       console.log('INFO: Creating new item for list: ', listId);
 
-      // Verify user owns list
+      // TODO: Verify user owns list
 
       // Create object to insert
       var obj = {
         userId: this.userId,
         listId: listId,
         desc: desc,
-        isComplete: false
+        isComplete: false,
+        isTweetSent: false,
+        isTweetEnabled: enableTweets || false
       };
 
       // Insert new item to database
@@ -64,8 +66,8 @@ Meteor.startup(function() {
 
     updateTodoList: function(todoListObj) {
       console.log('INFO: Updating todolist: ' + todoListObj._id);
-      console.log(todoListObj);
-      // Validate user owns list
+
+      // TODO: Validate user owns list
 
       // Update list object
       TodoLists.update({_id: todoListObj._id}, todoListObj);
@@ -96,7 +98,7 @@ Meteor.startup(function() {
       var user = Meteor.users.findOne({_id: this.userId}, {fields: {'services.twitter': 1}});
 
       // Create tweet text
-      parameters.status = user.services.twitter.screenName + " - test";
+      parameters.status = user.services.twitter.screenName + " just completed task: '" + todoItemObj.desc + "'";
 
       // Assign correct OAUTH parameter names for REST call
       parameters.oauth_consumer_key = auth.consumerKey;
@@ -114,8 +116,11 @@ Meteor.startup(function() {
         oauthBinding._call('POST', twitterURL, headers, parameters);
       } catch(e) {
         console.log('ERROR: Tweet Error - ', e);
-        throw new Meteor.Error(401, 'Invalid OAuth request', e);
+        throw new Meteor.Error(401, 'Could not Tweet Todo Item', e);
       }
+
+      // Update isTweetSent status to true
+      TodoItems.update({_id: todoItemObj._id}, {$set: {isTweetSent: true}});
 
       return;
     }

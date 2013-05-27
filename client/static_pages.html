@@ -6,6 +6,11 @@
 <body>
   <div class="container-fluid">
     <div class="row-fluid">
+      <div class="span6 offset3" id="alert-msg">
+        {{> alert_view}}
+      </div>
+    </div>
+    <div class="row-fluid">
       <div class="span6 offset3" id="main">
         {{> header_view}}
         {{renderPage}}
@@ -34,6 +39,15 @@
   {{#if logged_in}}
     <div class="header text-right">
       {{loginButtons}}
+    </div>
+  {{/if}}
+</template>
+
+<template name="alert_view">
+  {{#if is_alert}}
+    <div class="span6 offset3 alert {{alert_class}}">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{alert_msg}}
     </div>
   {{/if}}
 </template>

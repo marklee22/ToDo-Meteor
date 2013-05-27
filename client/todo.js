@@ -15,16 +15,6 @@ Template.todo_page.show_items_view = function() {
   return Session.get('selectedList');
 };
 
-Template.todo_page.events({
-  'click #tweet': function() {
-    Meteor.call('tweetTodo', {}, function(err, data) {
-      console.log(err);
-      console.log(data);
-      if(err) alert(err);
-    });
-  }
-});
-
 /****************
 *** TODO LIST ***
 ****************/
@@ -73,7 +63,7 @@ Template.todo_items_view.events({
   // Add new todo item to list
   'keypress input[name="newItem"]': function(e) {
     if(e.which === 13 && Session.get('selectedList')) {
-      Meteor.call('newItem', Session.get('selectedList')._id, $(e.target).val(), function(err, data) {
+      Meteor.call('newItem', Session.get('selectedList')._id, Session.get('enableTweets'), $(e.target).val(), function(err, data) {
         if(err) console.log('err - ', err);
         $(e.target).val('');
       });
@@ -97,6 +87,16 @@ Template.todo_items_view.events({
       // Update title
       TodoLists.update({_id: Session.get('selectedList')._id}, {$set: {title: $(e.target).val()}});
     }
+  },
+
+  // Toggle post to Twitter upon completion checkbox
+  'click .twitter-checkbox i': function(e) {
+    // Determine whether user wants to enable tweets
+    var enableTweets = $(e.target).hasClass('icon-check-empty') ? true : false;
+    $(e.target).toggleClass('icon-check-empty');
+    $(e.target).toggleClass('icon-check-sign');
+
+    Session.set('enableTweets', enableTweets);
   }
 });
 
@@ -115,6 +115,10 @@ Template.todo_items_view.enable_title_edit = function() {
   return Session.get('editTitle');
 };
 
+Template.todo_items_view.twitter_checkbox_class = function() {
+  return Session.get('enableTweets') ? 'icon-check-sign' : 'icon-check-empty';
+};
+
 /****************
 *** TODO ITEM ***
 ****************/
@@ -129,6 +133,15 @@ Template.todo_item_view.events({
 
     // Update todo-list item
     TodoItems.update({_id: this._id}, {$set: {isComplete: isComplete}});
+
+    // Tweet completion of task
+    if(isComplete && this.isTweetEnabled && !this.isTweetSent)
+      Meteor.call('tweetTodo', this, function(err) {
+        if(err)
+          Session.set('alert', {className: 'alert-error', msg: err.reason});
+        else
+          Session.set('alert', {className: 'alert-info', msg: 'Tweeted Completion of Task'})
+      });
   },
 
   // Delete item
