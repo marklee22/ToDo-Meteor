@@ -28,11 +28,10 @@ Template.todo_lists_view.todoLists = function() {
 Template.todo_lists_view.events({
   // Create new default list
   'click #new-list': function(e) {
-    console.log('clicked');
 
     // Create new todo list
     Meteor.call('newList', function(err, data) {
-      if(err) console.log('err - ', err);
+      if(err) Session.set('alert', {className: 'alert-error', msg: err});
       else Session.set('selectedList', {_id: data});
     });
   },
@@ -63,8 +62,10 @@ Template.todo_items_view.events({
   // Add new todo item to list
   'keypress input[name="newItem"]': function(e) {
     if(e.which === 13 && Session.get('selectedList')) {
-      Meteor.call('newItem', Session.get('selectedList')._id, Session.get('enableTweets'), $(e.target).val(), function(err, data) {
-        if(err) console.log('err - ', err);
+
+      // Create new todo item server side
+      Meteor.call('newItem', Session.get('selectedList')._id, Session.get('enableTweets'), $(e.target).val(), function(err) {
+        if(err) Session.set('alert', {className: 'alert-error', msg: err});
         $(e.target).val('');
       });
     }
@@ -140,7 +141,7 @@ Template.todo_item_view.events({
         if(err)
           Session.set('alert', {className: 'alert-error', msg: err.reason});
         else
-          Session.set('alert', {className: 'alert-info', msg: 'Tweeted Completion of Task'})
+          Session.set('alert', {className: 'alert-info', msg: 'Tweeted Completion of Task'});
       });
   },
 

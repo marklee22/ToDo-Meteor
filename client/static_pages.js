@@ -21,11 +21,16 @@ Template.header_view.logged_in = function() {
   return Meteor.user();
 };
 
+/* Login page event handlers */
 Template.login_page.events({
   'click #login-twitter': function() {
     Meteor.loginWithTwitter();
   }
 });
+
+/************
+*** ALERT ***
+************/
 
 Template.alert_view.is_alert = function() {
   return Session.get('alert');

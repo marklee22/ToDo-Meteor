@@ -22,7 +22,7 @@ Meteor.startup(function() {
 
   /* Publish ToDo Lists owned by current user */
   Meteor.publish('todoLists', function() {
-    return TodoLists.find({});
+    return TodoLists.find({userId: this.userId});
   });
 
   /* Publish ToDo Items for list selected by user */
@@ -32,6 +32,8 @@ Meteor.startup(function() {
 
   /* Server-side methods */
   Meteor.methods({
+
+    // Create new empty todo list
     newList: function() {
       console.log('INFO: Creating new list for user: ', this.userId);
       var obj = {
@@ -45,6 +47,7 @@ Meteor.startup(function() {
       return results;
     },
 
+    // Create new todo item
     newItem: function(listId, enableTweets, desc) {
       console.log('INFO: Creating new item for list: ', listId);
 
@@ -64,6 +67,7 @@ Meteor.startup(function() {
       return TodoItems.insert(obj);
     },
 
+    // Update todo list (should probably move this client side instead)
     updateTodoList: function(todoListObj) {
       console.log('INFO: Updating todolist: ' + todoListObj._id);
 
@@ -73,20 +77,27 @@ Meteor.startup(function() {
       TodoLists.update({_id: todoListObj._id}, todoListObj);
     },
 
+    // Delete todo item
     deleteTodoItem: function(todoObj) {
       console.log('INFO: Deleting todoItem: ' + todoObj._id);
+
+      // Validate user is owner of list
       if(this.userId === todoObj.userId) {
         TodoItems.remove({_id: todoObj._id});
       }
     },
 
+    // Delete todo list
     deleteTodoList: function(todoListObj) {
       console.log('INFO: Deleting todoList: ' + todoListObj._id);
+
+      // Validate user is owner of list
       if(this.userId === todoListObj.userId) {
         TodoLists.remove({_id: todoListObj._id});
       }
     },
 
+    // Post todo item completion to Twitter using OAuth
     tweetTodo: function(todoItemObj) {
       console.log('INFO: Tweeting Todo Item: ' + todoItemObj._id);
 
