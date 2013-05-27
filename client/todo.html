@@ -12,35 +12,67 @@
   <button class="btn btn-success" id="new-list"><span class="fui-plus">New List</span></button>
   <div class="todo-lists">
     {{#each todoLists}}
-      <div class="todo-list">{{title}}</div>
+      <div class="todo-list">
+        <i class="icon-remove-sign todo-list-delete"></i>
+        <i class="icon-list-alt"></i>
+        <span class="title">{{title}}</span>
+        <i class="icon-chevron-sign-right" style="float: right;"></i>
+      </div>
     {{/each}}
   </div>
 </template>
 
 <template name="todo_items_view">
   <div class="todo-list">
+    <button class="btn btn-danger" id="back">Back</button>
     {{#if enable_title_edit}}
-      <input type="text" name="title" value="{{title}}"></input>
+      <input class="text-center" type="text" name="title" value="{{title}}" id="todo-title-input"></input>
     {{else}}
-      <h2><span class="fui-new text-right title-edit"></span>{{title}}</h2>
+      <h2 class="text-center"><span class="fui-new text-right title-edit"></span>{{title}}</h2>
     {{/if}}
     <div class="todo-items">
       {{#each todoItems}}
         {{> todo_item_view}}
       {{/each}}
-      <div><input type="text" placeholder="Enter New Item" name="newItem"></input></div>
+      <input type="text" placeholder="Enter New Item" name="newItem" id="todo-add-item"></input>
     </div>
-    <button class="btn btn-danger" id="back">Back</button>
   </div>
+  {{> todo_footer_view}}
 </template>
 
 <template name="todo_item_view">
   <div class="todo-item">
+    <i class="{{checkbox_class}} todo-checkbox"></i>
+    <i class="icon-remove-sign todo-item-delete"></i>
     {{#if enable_item_edit}}
-      <input type="text" name="desc" value={{desc}}></input>
+      <input type="text" name="desc" value={{desc}} id="todo-edit-input"></input>
     {{else}}
-      <i class="{{checkbox_class}} todo-checkbox"></i>
       <span class="desc {{desc_class}}">{{desc}}</span>
     {{/if}}
+  </div>
+</template>
+
+<template name="todo_footer_view">
+  <div class="row-fluid">
+    <div class="todo-footer">
+      <div class="span4 text-center">
+        <button class="btn btn-large btn-info" id="checkAll">Select All</all>
+      </div>
+      <div class="span4 text-center">
+        <button class="btn btn-large btn-info" id="uncheckAll">Unselect All</all>
+      </div>
+      <div class="span4 text-center">
+        <div class="btn-group">
+          <a class="btn dropdown-toggle btn-info btn-large" data-toggle="dropdown" href="#">
+            Action
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu todo-action-dropdown">
+            <li id="markComplete">Completed</li>
+            <li id="markIncomplete">Incompleted</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

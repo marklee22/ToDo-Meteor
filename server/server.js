@@ -69,6 +69,20 @@ Meteor.startup(function() {
 
       // Update list object
       TodoLists.update({_id: todoListObj._id}, todoListObj);
-    }
+    },
+
+    deleteTodoItem: function(todoObj) {
+      console.log('INFO: Deleting todoItem: ' + todoObj._id);
+      if(this.userId === todoObj.userId) {
+        TodoItems.remove({_id: todoObj._id});
+      }
+    },
+
+    deleteTodoList: function(todoListObj) {
+      console.log('INFO: Deleting todoList: ' + todoListObj._id);
+      if(this.userId === todoListObj.userId) {
+        TodoLists.remove({_id: todoListObj._id});
+      }
+    },
   });
 });

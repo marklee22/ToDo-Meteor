@@ -33,13 +33,20 @@ Template.todo_lists_view.events({
     // Create new todo list
     Meteor.call('newList', function(err, data) {
       if(err) console.log('err - ', err);
-      else Session.set('selectedList', data);
+      else Session.set('selectedList', {_id: data});
     });
   },
 
   // Set Session with current list selected
   'click .todo-list': function() {
     Session.set('selectedList', this);
+  },
+
+  // Delete todo list
+  'click .todo-list-delete': function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Meteor.call('deleteTodoList', this);
   }
 });
 
@@ -112,6 +119,11 @@ Template.todo_item_view.events({
 
     // Update todo-list item
     TodoItems.update({_id: this._id}, {$set: {isComplete: isComplete}});
+  },
+
+  // Delete item
+  'click .todo-item-delete': function(e) {
+    Meteor.call('deleteTodoItem', this);
   },
 
   // Enable inline-editing for todo item

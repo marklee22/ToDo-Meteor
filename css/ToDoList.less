@@ -1,10 +1,13 @@
 @br-default: 10px;
 @bg-default: #ECF0F1;
 @bg-login: rgba(143, 212, 245, 0.7);
+@font-size-default: 25px;
+@max-width: 600px;
 
 /* TYPOGRAPHY */
 .strikethrough {
   text-decoration: line-through;
+  color: #2ECC71;
 }
 
 /* GLOBAL */
@@ -22,7 +25,7 @@ body {
   min-height: 250px;
   padding: 20px;
   border-radius: @br-default;
-  max-width: 600px;
+  max-width: @max-width;
   .inner-login {
     background: url('/images/clipboard.png') no-repeat center left;
     background-position-x: 25%;
@@ -55,4 +58,64 @@ body {
   border: 1px solid black;
   border-radius: @br-default;
   padding: 10px;
+  max-width: @max-width + 100px;
+  .todo-list {
+    .todo-list-delete {
+      margin-right: 10%;
+    }
+    #todo-title-input {
+      padding: 0;
+      width: 50%;
+      display: block;
+      margin: 0 auto;
+      font-size: @font-size-default;
+    }
+    .title-edit {
+      margin-right: 5px;
+      font-size: 60%;
+      vertical-align: top;
+    }
+    h2 {
+      border-bottom: 2px solid black;
+      width: 85%;
+      margin: 0 auto;
+    }
+  }
+  .todo-items {
+    #todo-add-item, #todo-edit-input {
+      padding: 0;
+      font-size: @font-size-default;
+      width: 84%;
+      margin: 13px auto;
+      display: block;
+    }
+    #todo-edit-input {
+      display: inline-block;
+    }
+    .todo-item {
+      font-size: @font-size-default;
+      margin: 3px;
+      margin-left: 16%;
+      i {
+        margin-right: 5px;
+      }
+      .todo-item-delete {
+         float: left;
+         margin-left: -10%;
+         margin-top: 4px;
+      }
+    }
+  }
+  .todo-footer {
+    .todo-action-dropdown {
+      background-color: white;
+      li {
+        margin: 5px;
+        &:hover {
+          background-color: @bg-login;
+          text-color: white;
+        }
+      }
+    }
+  }
 }
