@@ -15,6 +15,16 @@ Template.todo_page.show_items_view = function() {
   return Session.get('selectedList');
 };
 
+Template.todo_page.events({
+  'click #tweet': function() {
+    Meteor.call('tweetTodo', {}, function(err, data) {
+      console.log(err);
+      console.log(data);
+      if(err) alert(err);
+    });
+  }
+});
+
 /****************
 *** TODO LIST ***
 ****************/

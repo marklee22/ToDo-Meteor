@@ -84,5 +84,40 @@ Meteor.startup(function() {
         TodoLists.remove({_id: todoListObj._id});
       }
     },
+
+    tweetTodo: function(todoItemObj) {
+      console.log('INFO: Tweeting Todo Item: ' + todoItemObj._id);
+
+      var parameters = {},
+          twitterURL = 'https://api.twitter.com/1/statuses/update.json';
+
+      // Pull Oauth parameters from database
+      var auth = Accounts.loginServiceConfiguration.findOne({service: 'twitter'}, {fields: {consumerKey: 1, secret: 1}});
+      var user = Meteor.users.findOne({_id: this.userId}, {fields: {'services.twitter': 1}});
+
+      // Create tweet text
+      parameters.status = user.services.twitter.screenName + " - test";
+
+      // Assign correct OAUTH parameter names for REST call
+      parameters.oauth_consumer_key = auth.consumerKey;
+      parameters.oauth_consumer_secret = auth.secret;
+      parameters.oauth_token = user.services.twitter.accessToken;
+      parameters.oauth_signature_method = 'HMAC-SHA1';
+
+      // Create OAUTH1 headers to make request to Twitter API
+      var oauthBinding = new OAuth1Binding(auth.consumerKey, auth.secret, twitterURL);
+      oauthBinding.accessTokenSecret = user.services.twitter.accessTokenSecret;
+      var headers = oauthBinding._buildHeader();
+
+      // Catch errors from OAuth call
+      try {
+        oauthBinding._call('POST', twitterURL, headers, parameters);
+      } catch(e) {
+        console.log('ERROR: Tweet Error - ', e);
+        throw new Meteor.Error(401, 'Invalid OAuth request', e);
+      }
+
+      return;
+    }
   });
 });
