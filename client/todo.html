@@ -1,7 +1,6 @@
 <template name="todo_page">
   <div class="todo-app">
-    <h1>TODO</h1>
-    {{#if list_selected}}
+    {{#if show_items_view}}
       {{> todo_items_view}}
     {{else}}
       {{> todo_lists_view}}
@@ -19,21 +18,29 @@
 </template>
 
 <template name="todo_items_view">
-  <h2>{{title}}<span class="fui-new text-right"></span></h2>
-  <div class="todo-items">
-    {{#each todoItems}}
-      {{> todo_item_view}}
-    {{/each}}
-    <div><input type="text" placeholder="Enter New Item" name="desc"></input></div>
+  <div class="todo-list">
+    {{#if enable_title_edit}}
+      <input type="text" name="title" value="{{title}}"></input>
+    {{else}}
+      <h2><span class="fui-new text-right title-edit"></span>{{title}}</h2>
+    {{/if}}
+    <div class="todo-items">
+      {{#each todoItems}}
+        {{> todo_item_view}}
+      {{/each}}
+      <div><input type="text" placeholder="Enter New Item" name="newItem"></input></div>
+    </div>
+    <button class="btn btn-danger" id="back">Back</button>
   </div>
-  <button class="btn btn-danger" id="back">Back</button>
-  <button class="btn btn-success" id="add-item">Add Item</button>
 </template>
 
 <template name="todo_item_view">
   <div class="todo-item">
-    <span class="desc">{{desc}}</span>
-    <span class="fui-new"></span>
-    <span class="fui-cross"></span>
+    {{#if enable_item_edit}}
+      <input type="text" name="desc" value={{desc}}></input>
+    {{else}}
+      <i class="{{checkbox_class}} todo-checkbox"></i>
+      <span class="desc {{desc_class}}">{{desc}}</span>
+    {{/if}}
   </div>
 </template>

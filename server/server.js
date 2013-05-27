@@ -11,6 +11,15 @@ Meteor.startup(function() {
     remove: function() { return true; }
   });
 
+  /* Allow client updates to collections if user owns list/item */
+  TodoLists.allow({
+    update: function(item) { return item.userId === this.userId ? true : false; }
+  });
+
+  TodoItems.allow({
+    update: function(item) { return item.userId === this.userId ? true : false; }
+  });
+
   /* Publish ToDo Lists owned by current user */
   Meteor.publish('todoLists', function() {
     return TodoLists.find({});
@@ -18,7 +27,6 @@ Meteor.startup(function() {
 
   /* Publish ToDo Items for list selected by user */
   Meteor.publish('todoItems', function(options) {
-    console.log(options);
     return TodoItems.find({listId: options.listId});
   });
 
@@ -52,6 +60,15 @@ Meteor.startup(function() {
 
       // Insert new item to database
       return TodoItems.insert(obj);
+    },
+
+    updateTodoList: function(todoListObj) {
+      console.log('INFO: Updating todolist: ' + todoListObj._id);
+      console.log(todoListObj);
+      // Validate user owns list
+
+      // Update list object
+      TodoLists.update({_id: todoListObj._id}, todoListObj);
     }
   });
 });
