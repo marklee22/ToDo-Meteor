@@ -1,0 +1,58 @@
+@br-default: 10px;
+@bg-default: #ECF0F1;
+@bg-login: rgba(143, 212, 245, 0.7);
+
+/* TYPOGRAPHY */
+.strikethrough {
+  text-decoration: line-through;
+}
+
+/* GLOBAL */
+#main {
+  margin-top: 100px;
+}
+
+body {
+  background-color: @bg-default;
+}
+
+/* LOGIN */
+.login-box {
+  background-color: @bg-login;
+  min-height: 250px;
+  padding: 20px;
+  border-radius: @br-default;
+  max-width: 600px;
+  .inner-login {
+    background: url('/images/clipboard.png') no-repeat center left;
+    background-position-x: 25%;
+    background-position-y: 70%;
+    background-size: 23% 60%;
+    background-color: @bg-default;
+    min-height: 250px;
+    border-radius: @br-default;
+    h1 {
+      margin-top: 0;
+    }
+    #login-twitter {
+      margin-top: 43px;
+      margin-left: 25%;
+      background-color: @bg-login;
+    }
+  }
+}
+
+/* HEADER */
+.header {
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: @br-default;
+  padding: 10px;
+}
+
+/* TODO */
+.todo-app {
+  border: 1px solid black;
+  border-radius: @br-default;
+  padding: 10px;
+}

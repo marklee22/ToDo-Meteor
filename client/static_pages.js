@@ -20,3 +20,9 @@ Meteor.Router.filters({
 Template.header_view.logged_in = function() {
   return Meteor.user();
 };
+
+Template.login_page.events({
+  'click #login-twitter': function() {
+    Meteor.loginWithTwitter();
+  }
+});

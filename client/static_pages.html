@@ -4,9 +4,9 @@
 
 <body>
   <div class="container-fluid">
-    {{> header_view}}
     <div class="row-fluid">
       <div class="span6 offset3" id="main">
+        {{> header_view}}
         {{renderPage}}
       </div>
     </div>
@@ -14,8 +14,12 @@
 </body>
 
 <template name="login_page">
-  <div class="text-center">
-    {{loginButtons}}
+  <div class="text-center login-box">
+    <div class="inner-login">
+      <h1>TODO</h1>
+      <h5>Built with <a href="http://meteor.com">Meteor.js</a></h5>
+      <button id="login-twitter" class="btn btn-large"><img src="/images/twitter.png" alt="Login with Twitter"/></button>
+    </div>
   </div>
 </template>
 
@@ -27,7 +31,7 @@
 
 <template name="header_view">
   {{#if logged_in}}
-    <div class="header">
+    <div class="header text-right">
       {{loginButtons}}
     </div>
   {{/if}}
