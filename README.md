@@ -26,6 +26,20 @@ $ mrt
     
 Browse to localhost:3000
 
+##Configuration
+1. Create Twitter API Application [here](https://dev.twitter.com/).
+2. Insert account credentials into database
+``` sh
+$ meteor mongo
+MongoDB shell version: 2.4.3
+connecting to: 127.0.0.1:3002/meteor
+> db.meteor_accounts_loginServiceConfiguration.insert({
+    "service" : "twitter",
+    "consumerKey" : "YOUR_CONSUMER_KEY",
+    "secret" : "YOUR_CONSUMER_SECRET"
+})
+```
+
 ##Features
 1. Dblclick inline-form editing for todo items
 1. Twitter OAuth integration (Login with Twitter)
