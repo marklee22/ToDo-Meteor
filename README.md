@@ -29,6 +29,7 @@ Browse to localhost:3000
 ##Configuration
 1. Create Twitter API Application [here](https://dev.twitter.com/).
 2. Insert account credentials into database
+
 ``` sh
 $ meteor mongo
 MongoDB shell version: 2.4.3
