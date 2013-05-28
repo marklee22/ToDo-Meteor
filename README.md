@@ -5,15 +5,26 @@ ToDo List built with Meteor with Twitter Integration.  Upon completion of a task
 
 ##Installation
 
-1. Install Meteor
+Install meteorite
 
-  sudo -H npm install -g meteorite
+``` sh
+$ sudo -H npm install -g meteorite
+```
 
-1. Run meteor
+Clone from github
 
-  mrt
+``` sh
+$ git clone https://github.com/marklee22/todo-meteor.git
+$ cd ToDo-Meteor
+```
+
+Run meteor
+
+``` sh
+$ mrt
+```
     
-1. Browse to localhost:3000
+Browse to localhost:3000
 
 ##Features
 1. Dblclick inline-form editing for todo items
